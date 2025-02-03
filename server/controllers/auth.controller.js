@@ -23,6 +23,7 @@ export async function signup(req,res){
 }
 export async function signin(req,res){
     const {email,password}=req.body;
+    console.log(email+password)
     try {
         if(!email || !password ){
             return res.status(400).send("All input is required")
