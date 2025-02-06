@@ -21,7 +21,7 @@ const userstore = create(
 
       setsocket: () => {
         if (!get().socket) {
-          const socket = io("http://localhost:3000", {
+          const socket = io('/', {
             query: { id: get().user },
           });
 
