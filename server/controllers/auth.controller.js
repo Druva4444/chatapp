@@ -53,17 +53,19 @@ export async function logout(req,res){
     }
 }
 export async function updateprofilepic(req,res){
-    const {image} = req.body
+    const {image,name} = req.body
     try {
         const user = req.user
         if(!user)
             return res.status(400).json({msg:'please login '})
         const response = await cloudinary.uploader.upload(image,{folder:'profilepic'})
         user.profilepic = response.secure_url
+        user.name = name
         await user.save()
         return res.status(200).json({msg:'pic updated succesfully '})
     } catch (error) {
         console.log('error in updating the pic')
+        console.log(error)
         return res.status(500).json({msg:'internal server error'})
     }
 }

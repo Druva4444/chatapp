@@ -1,12 +1,26 @@
 import user from "../models/user.model.js";
 import messege from "../models/messege.model.js";
+import {returnid,io,usermaps} from '../lib/socket.js'
 export async function createmessege(req,res){
 const {text,receiver} = req.body
 try {
     const user = req.user._id
-    const mesg = await messege.create({text,receiver,user})
+    const mesg = await messege.create({text,receiver,sender:user})
+    const receiverid = usermaps[receiver]
+    const senderid = usermaps[user]
+
+    if(receiverid){
+        console.log(receiverid)
+        io.to(receiverid).emit('newmessege',mesg)
+        console.log(user.toString())
+        const x =user.toString()
+        console.log('sender id',x)
+        io.to(senderid).emit('newmessege',mesg) // Corrected event name
+        console.log('sent')
+    }
     return res.status(200).json({msg:'messege created'})
 } catch (error) {
+    console.log(error)
     console.log('error in creating messeg')
     return res.status(500).json({msg:'internal server error'})
 }

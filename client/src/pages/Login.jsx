@@ -9,6 +9,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const setname = userstore((state)=>state.setuser)
   const user1 = userstore ((state)=>state.user)
+  const name =  userstore((state)=>state.name)
+  const setname1 =userstore((store)=>store.setname)
+  const setsocket = userstore((store)=>store.setsocket)
+  const setuserobj = userstore((store)=>store.setuserobj)
     const navigate = useNavigate()
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -19,9 +23,13 @@ const Login = () => {
             console.log('home')
             const user = response.data
             console.log(response.data)
+            setuserobj(user)
             const id = user._id
+            const namex =user.name
             console.log(id)
             setname(id)
+            setname1(namex)
+            setsocket()
             setTimeout(() => {
                 console.log("Updated user:", userstore.getState().user);
               }, 100);
